@@ -94,35 +94,20 @@ with col3:
     total_sum = cas_df.casual_sum.sum()
     st.metric("Total Casual", value=total_sum)
 
-st.subheader("Rata - Rata Penyewaan Sepeda berdasarkan Kondisi Cuaca")
-
-avg_weather = days_df.groupby('weather_situation')['count_cr'].mean().reset_index().sort_values("count_cr")
-
-fig, ax = plt.subplots(figsize=(10, 6))
-
-sns.barplot(x='count_cr', y='weather_situation', data=avg_weather, palette=["#9B4444", "#9B4444", "#9B4444", "#9B4444"], ax=ax)
-
-ax.set_title('Rata - Rata Penyewaan Sepeda berdasarkan Kondisi Cuaca')
-ax.set_xlabel('Rata - Rata Penyewaan')
-ax.set_ylabel('Kondisi Cuaca')
-ax.tick_params(axis='x', rotation=45)
-
-st.pyplot(fig)
-
 st.subheader("Jam dengan Penyewa Sepeda Paling Banyak dan Paling Sedikit ")
 fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(35, 15))
 
-sns.barplot(x="hours", y="count_cr", data=sum_order_items_df.head(5), palette=["#D3D3D3", "#D3D3D3", "#90CAF9", "#D3D3D3", "#D3D3D3"], ax=ax[0])
+sns.barplot(x="hours", y="count_cr", data=sum_order_items_df.head(5), palette=["#D3D3D3", "#D3D3D3", "#9B4444", "#D3D3D3", "#D3D3D3"], ax=ax[0])
 ax[0].set_ylabel(None)
 ax[0].set_xlabel("Hours (PM)", fontsize=30)
-ax[0].set_title("Jam dengan banyak penyewa sepeda", loc="center", fontsize=30)
+ax[0].set_title("Jam dengan penyewa sepeda paling banyak", loc="center", fontsize=30)
 ax[0].tick_params(axis='y', labelsize=35)
 ax[0].tick_params(axis='x', labelsize=30)
 
-sns.barplot(x="hours", y="count_cr", data=sum_order_items_df.sort_values(by="hours", ascending=True).head(5), palette=["#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3","#90CAF9"], ax=ax[1])
+sns.barplot(x="hours", y="count_cr", data=sum_order_items_df.sort_values(by="hours", ascending=True).head(5), palette=["#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3","#9B4444"], ax=ax[1])
 ax[1].set_ylabel(None)
 ax[1].set_xlabel("Hours (AM)", fontsize=30)
-ax[1].set_title("Jam dengan sedikit penyewa sepeda", loc="center", fontsize=30)
+ax[1].set_title("Jam dengan penyewa sepeda paling sedikit", loc="center", fontsize=30)
 ax[1].invert_xaxis()
 ax[1].yaxis.set_label_position("right")
 ax[1].yaxis.tick_right()
@@ -130,10 +115,13 @@ ax[1].tick_params(axis='y', labelsize=35)
 ax[1].tick_params(axis='x', labelsize=30)
 
 st.pyplot(fig)
-st.subheader("Musim yang paling sedikit disewa")
+st.subheader("Musim dengan Penyewa Sepeda Paling Sedikit")
+
+season_order = ["spring", "summer", "fall", "winter"]
+season_labels = ["Spring", "Summer", "Fall", "Winter"]
 
 # Use a different color palette or specify colors for each season
-colors = ["#E63946", "#F1FAEE", "#A8DADC", "#457B9D"]
+colors = ["#9B4444", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
 
 # membuat subplot dengan 1 baris dan 1 kolom, dengan ukuran (20, 10)
 fig, ax = plt.subplots(figsize=(20, 10))
@@ -147,10 +135,13 @@ sns.barplot(
         ax=ax
     )
 # mengatur judul, label y dan x, serta tick params untuk subplot tersebut
-ax.set_title("Penyewaan Sepeda Sepanjang Musim", loc="center", fontsize=40)
+ax.set_title("Penyewaan Sepeda Sepanjang Musim", loc="center", fontsize=30)
 ax.set_ylabel(None)
 ax.set_xlabel(None)
 ax.tick_params(axis='x', labelsize=30)
 ax.tick_params(axis='y', labelsize=30)
+
+# Set x-axis labels
+ax.set_xticklabels(season_labels, fontsize=20)
 
 st.pyplot(fig)
